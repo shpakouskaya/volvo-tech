@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <h2>{{ mode }} Post</h2>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="userID" class="form-label">UserID:</label>
+      <input
+        type="number"
+        id="userID"
+        formControlName="userId"
+        class="form-control"
+        required
+      >
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Title:</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="form-control"
+        required
+      >
+    </div>
+    <div class="mb-3">
+      <label for="body" class="form-label">Body:</label>
+      <textarea
+        type="text"
+        id="body"
+        formControlName="body"
+        class="form-control"
+      >
+      </textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ mode }} Post</button>
+  </form>
+</div>
