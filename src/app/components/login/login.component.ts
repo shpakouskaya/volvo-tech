@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -21,17 +21,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private formBuilder: FormBuilder
-  ) {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  }
+  ) { }
 
   ngOnInit(): void {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.createLoginForm();
     this.subscribeToFormChanges();
   }
 
   ngOnDestroy(): void {
-    this.loginSubscription$.unsubscribe();
+    this.loginSubscription$?.unsubscribe();
   }
 
   createLoginForm(): void {
@@ -48,9 +47,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    if (this.loginForm.invalid) {
-      return;
-    }
+    if (this.loginForm.invalid) return;
+
     const { username, password } = this.loginForm.value;
 
     this.loginSubscription$ = this.authService.login(username, password).subscribe(

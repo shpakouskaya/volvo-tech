@@ -1,10 +1,10 @@
-import {Component, OnInit, EventEmitter, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PostsService } from '../../services/post/posts.service';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AppStateService} from "../../services/states/app-state.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Post} from "../../interfaces /post";
-import {Subscription} from "rxjs";
+import { AppStateService } from "../../services/states/app-state.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { Post } from "../../interfaces /post";
 
 @Component({
   selector: 'app-post-form',
@@ -12,11 +12,11 @@ import {Subscription} from "rxjs";
   styleUrls: ['./post-form.component.scss']
 })
 export class PostFormComponent implements OnInit, OnDestroy {
-   mode: 'Add' | 'Edit' = 'Add';
-   postId: number;
-   postForm: FormGroup;
-   postIdSubscription$: Subscription
-   postDataSubscription$: Subscription;
+  mode: 'Add' | 'Edit' = 'Add';
+  postId: number;
+  postForm: FormGroup;
+  postIdSubscription$: Subscription;
+  postDataSubscription$: Subscription;
 
   constructor(
     private router: Router,
@@ -35,13 +35,9 @@ export class PostFormComponent implements OnInit, OnDestroy {
     this.getMode();
   }
 
-  ngOnDestroy() {
-    if (this.postDataSubscription$){
-      this.postDataSubscription$.unsubscribe();
-    }
-    if (this.postIdSubscription$){
-      this.postIdSubscription$.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    this.postDataSubscription$?.unsubscribe();
+    this.postIdSubscription$?.unsubscribe();
   }
 
   getMode(): void {
@@ -56,7 +52,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.mode = 'Add';
-         this.getActualPostID();
+        this.getActualPostID();
       }
     });
   }
@@ -82,25 +78,19 @@ export class PostFormComponent implements OnInit, OnDestroy {
       body: body,
     };
 
-    if (this.mode === 'Add') {
-      this.postsService.createPost(post).subscribe(newPost => {
-        this.appState.addPost(newPost);
-        this.router.navigate(['/']);
-      });
-    } else if (this.mode === 'Edit') {
-      this.postsService.updatePost(post).subscribe(updatedPost => {
-        this.appState.updatePost(updatedPost);
-        this.router.navigate(['/']);
-      });
-    }
+    const action = this.mode === 'Add' ? this.postsService.createPost(post) : this.postsService.updatePost(post);
+
+    action.subscribe(updatedPost => {
+      this.mode === 'Add' ? this.appState.addPost(updatedPost) : this.appState.updatePost(updatedPost);
+      this.router.navigate(['/']);
+    });
   }
 
   private getActualPostID(): void {
     this.postIdSubscription$ = this.postsService.getPosts().subscribe(posts => {
       if (posts && posts.length > 0) {
-        // @ts-ignore
-        this.postId = posts.at(-1).id + 1;
+        this.postId = posts[posts.length - 1].id + 1;
       }
-    })
+    });
   }
 }

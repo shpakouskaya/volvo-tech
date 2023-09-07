@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PostsService} from "../../services/post/posts.service";
-import {Router} from "@angular/router";
-import {AppStateService} from "../../services/states/app-state.service";
-import {Post} from "../../interfaces /post";
-import {Subscription} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PostsService } from "../../services/post/posts.service";
+import { Router } from "@angular/router";
+import { AppStateService } from "../../services/states/app-state.service";
+import { Post } from "../../interfaces /post";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-right-side-list',
