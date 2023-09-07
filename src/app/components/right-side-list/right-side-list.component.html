@@ -3,14 +3,16 @@
     <button class="btn btn-primary" (click)="navigateToAddForm()">Add Post</button>
   </div>
   <ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of items">
-      <div class="post-text">
-        <p class="post-title">{{ item.title }}</p>
-        <p class="post-body"><i>{{ item.body }}</i></p>
-      </div>
-      <div>
-        <button class="btn btn-sm btn-info me-2" (click)="onItemClick(item.id); $event.stopPropagation()">Edit</button>
-        <button class="btn btn-sm btn-danger" (click)="deletePost(item.id); $event.stopPropagation()">Delete</button>
+    <li class="list-group-item article" *ngFor="let item of items">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="post-text">
+          <p class="post-title">{{ item.title }}</p>
+          <p class="post-body"><i>{{ item.body }}</i></p>
+        </div>
+        <div class="d-flex">
+          <button class="btn btn-sm btn-info me-2" (click)="onItemClick(item.id); $event.stopPropagation()">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deletePost(item.id); $event.stopPropagation()">Delete</button>
+        </div>
       </div>
     </li>
   </ul>
